@@ -16,6 +16,18 @@ app.get('/', (req, res) => {
     })
 });
 
+app.get(`/v${version}/question/secrets/rm2710`, async(req, res) => {
+    try {
+        const allQuestions = await db.select().from(questions);
+        return res.status(200).json(allQuestions);
+    } catch (error) {
+        console.error('Question fetch failed:', error);
+        return res.status(500).json({
+            error: 'Questions could not be fetched'
+        });
+    }
+});
+
 router.post('/', async(req, res) => {
     const { statement, difficulty, option_a, option_b, option_c, option_d, answer } = req.body;
     if (!statement || difficulty === undefined || difficulty === null || !option_a || !option_b || !option_c || !option_d || !answer) {
