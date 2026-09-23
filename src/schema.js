@@ -5,6 +5,7 @@ export const questions = pgTable(
     'questions', {
         id: serial('id').primaryKey(),
         statement: varchar({ length: 200 }).notNull(),
+        subject: varchar({ length: 50 }).notNull(),
         difficulty: smallint().notNull(),
         option_a: varchar({ length: 50 }).notNull(),
         option_b: varchar({ length: 50 }).notNull(),

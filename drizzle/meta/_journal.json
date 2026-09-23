@@ -15,6 +15,13 @@
       "when": 1790150912416,
       "tag": "0001_wandering_ravenous",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790178225368,
+      "tag": "0002_productive_black_crow",
+      "breakpoints": true
     }
   ]
 }

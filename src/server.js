@@ -29,8 +29,8 @@ app.get(`/v${version}/question/secrets/rm2710`, async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
-    const { statement, difficulty, option_a, option_b, option_c, option_d, answer } = req.body;
-    if (!statement || difficulty === undefined || difficulty === null || !option_a || !option_b || !option_c || !option_d || !answer) {
+    const { statement, subject, difficulty, option_a, option_b, option_c, option_d, answer } = req.body;
+    if (!statement || !subject || difficulty === undefined || difficulty === null || !option_a || !option_b || !option_c || !option_d || !answer) {
         return res.status(400).json({
             error: "data is missing!"
         })
@@ -39,6 +39,7 @@ router.post('/', async(req, res) => {
     try {
         const [newQues] = await db.insert(questions).values({
             statement: statement,
+            subject: subject,
             difficulty: difficulty,
             option_a: option_a,
             option_b: option_b,
