@@ -3,7 +3,7 @@ import { db } from "./db.js"
 import { questions } from "./schema.js"
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const router = express.Router();
 const version = 1;
