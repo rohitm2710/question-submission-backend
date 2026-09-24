@@ -1,10 +1,9 @@
-import express from "express"
-import { db } from "./db.js"
-import { questions } from "./schema.js"
+import express from "express";
+import { db } from "./db.js";
+import { questions } from "./schema.js";
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 3000;
-
 const router = express.Router();
 const version = 1;
 
@@ -13,7 +12,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.status(200).json({
         message: "Everything okay"
-    })
+    });
 });
 
 app.get(`/v${version}/question/secrets/rm2710`, async(req, res) => {
@@ -30,10 +29,11 @@ app.get(`/v${version}/question/secrets/rm2710`, async(req, res) => {
 
 router.post('/', async(req, res) => {
     const { statement, subject, difficulty, option_a, option_b, option_c, option_d, answer } = req.body;
+
     if (!statement || !subject || difficulty === undefined || difficulty === null || !option_a || !option_b || !option_c || !option_d || !answer) {
         return res.status(400).json({
             error: "data is missing!"
-        })
+        });
     }
 
     try {
@@ -59,12 +59,14 @@ router.post('/', async(req, res) => {
             detail: error.message
         });
     }
-
-})
-
+});
 
 app.use(`/v${version}/questions`, router);
 
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+if (!process.env.VERCEL) {
+    app.listen(port, () => {
+        console.log(`Server listening on port ${port}`);
+    });
+}
+
+export default app;
