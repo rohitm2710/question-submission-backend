@@ -8,11 +8,32 @@ const router = express.Router();
 const version = 1;
 
 app.use(express.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+    next();
+});
 
 app.get('/', (req, res) => {
     res.status(200).json({
         message: "Everything okay"
     });
+});
+
+router.get('/', async(req, res) => {
+    try {
+        const allQuestions = await db.select().from(questions);
+        return res.status(200).json(allQuestions);
+    } catch (error) {
+        console.error('Question fetch failed:', error);
+        return res.status(500).json({
+            error: 'Questions could not be fetched'
+        });
+    }
 });
 
 app.get(`/v${version}/question/secrets/rm2710`, async(req, res) => {
